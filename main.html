@@ -37,6 +37,43 @@
   const stopButton = document.querySelector('#stop');
 
   //Your code goes here
+	speechSynthesis.addEventListener('voiceschanged', function() {
+    // Code to handle the event and work with the voices
+    voices = speechSynthesis.getVoices();
+    let sel=document.getElementById("voices");
+    voices.forEach(function(voice, index) {
+      let op=document.createElement("option");
+      op.innerText=voice.name;
+      op.value=voice.name;
+      sel.append(op);
+    });
+  });
+
+  msg.text=document.getElementsByTagName("textarea")[0].value;
+
+  let selectElement =document.getElementById("voices");
+  let selectedValue;
+  selectElement.addEventListener('change', function() {
+    selectedValue= selectElement.value;
+    setVoice();
+  });
+
+  function setVoice(){
+    voices.forEach(function(voice){
+        if(selectedValue==voice.name){
+            msg.voice=voice;
+            //console.log(msg.voice);
+        }
+    })
+  }
+
+  speakButton.addEventListener("click",()=>{
+    speechSynthesis.speak(msg);
+  })
+
+  stopButton.addEventListener("click",()=>{
+    speechSynthesis.cancel();
+  })
 </script>
 
 </body>
